@@ -122,7 +122,6 @@ nnoremap <SPACE> <Nop>
 map <C-b> :NERDTreeToggle .<CR> 
 "" CtrlP clear cache"
 nmap gp :ClearCtrlPCache<CR>
-"" Toggle terminal
 "" insert binding.pry
 nmap <Leader>o obinding.pry<esc>k^
 nmap <Leader>O kobinding.pry<esc>j^
@@ -132,9 +131,17 @@ nmap Y vi"y
 nmap <M-/> viw"sy/<c-r>s<CR>
 "" paste in insert mode"
 imap <C-V> <C-R>"
-"" newlines in insert mode
+"" newlines in insert mode TODO: ctrl
 imap <S-CR> <Up><End><CR>
 imap <C-CR> <End><CR>
+"" Search and move window together with it
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap * *<C-o>
+"" Go back to last edited line and center
+nnoremap g; g;zz
+"" Quick search window TODO why doesn't it work?
+nnoremap <silent> <leader>/ :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR>
 "" substitude word with yanked"
 nmap <M-s> viw"0p
 "" yank current word
@@ -154,6 +161,8 @@ nmap <C-h> <C-w>h
 nmap <C-j> <c-w>j
 nmap <C-k> <c-w>k
 nmap <C-l> <c-w>l
+"" Window resizing
+
 "" Tab motions
 nnoremap <Leader>h :tabprevious<CR>
 nnoremap <Leader>l :tabnext<CR>
