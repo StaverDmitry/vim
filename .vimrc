@@ -162,7 +162,10 @@ nmap <C-j> <c-w>j
 nmap <C-k> <c-w>k
 nmap <C-l> <c-w>l
 "" Window resizing
-
+nnoremap <C-left>  5<C-w><
+nnoremap <C-right> 5<C-w><
+nnoremap <C-up>  5<C-w>+
+nnoremap <C-down> 5<C-w>-
 "" Tab motions
 nnoremap <Leader>h :tabprevious<CR>
 nnoremap <Leader>l :tabnext<CR>
