@@ -14,7 +14,6 @@ set relativenumber
 set nocompatible              " be iMproved, required
 filetype off                  " required
 set clipboard=unnamed
-set timeoutlen=100 ttimeoutlen=0
 set guifont=Menlo\ Regular:h15
 
 " set the runtime path to include Vundle and initialize
@@ -52,7 +51,7 @@ Plugin 'lucapette/vim-ruby-doc'
 call vundle#end()            " required
 
 "" 23 212 carvedwood
-colorscheme znake
+colorscheme tropikos
 let g:lightline = { 'colorscheme': 'wombat', 'component_function': {'filename': 'LightLineFilename'}  } 
 function! LightLineFilename()
   return fnamemodify(expand("%"), ":~:.")
@@ -60,6 +59,7 @@ endfunction
 
 "" SuperTab change direction
 let g:SuperTabDefaultCompletionType = "<c-n>"
+let g:AutoPairsShortcutToggle = '<C-\>'
 
 filetype plugin indent on    " required
 
@@ -83,22 +83,6 @@ set smartcase                   " ... unless they contain at least one capital l
 "" Hide search highlighting on return
 nnoremap <silent><Cr> :noh <CR>
 
-"" BEGIN save vim session on exit "
-"function! MakeSession()
-  "let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
-  "if (filewritable(b:sessiondir) != 2)
-    "exe 'silent !mkdir -p ' b:sessiondir
-    "redraw!
-  "endif
-  "let b:filename = b:sessiondir . '/session.vim'
-  "exe "mksession! " . b:filename
-"endfunction
-"
-"au VimEnter * nested :call LoadSession()
-"au VimLeave * :call MakeSession()
-"" END save VIM session on exit "
-
-
 " BEGIN  save on ctrl + s start   
 command! -nargs=0 -bar GUpdate if &modified 
                            \|    if empty(bufname('%'))
@@ -107,7 +91,7 @@ command! -nargs=0 -bar GUpdate if &modified
                            \|        confirm write
                            \|    endif
                            \|endif
-nnoremap <silent> <C-S> :<C-u>GUpdate<CR>
+nnoremap <silent> fs :<C-u>GUpdate<CR>
 " END SAVE ON CTRL + S  
 
 
@@ -122,9 +106,13 @@ nnoremap <SPACE> <Nop>
 map <C-b> :NERDTreeToggle .<CR> 
 "" CtrlP clear cache"
 nmap gp :ClearCtrlPCache<CR>
-"" insert binding.pry
-nmap <Leader>o obinding.pry<esc>k^
-nmap <Leader>O kobinding.pry<esc>j^
+"" insert binding.pry in normal mode
+nnoremap <Leader>o obinding.pry<esc>k^
+nnoremap <Leader>O kobinding.pry<esc>j^
+"" insert binding.pry in insert mode
+inoremap <C-p> binding.pry
+"" Find binding.pry in a project
+nnoremap gpry <C-w>s<C-w>J :Ack 'binding.pry'<CR>
 "" copy inside double quotes
 nmap Y vi"y
 "" search for the current word
@@ -143,17 +131,15 @@ nnoremap g; g;zz
 "" Quick search window TODO why doesn't it work?
 nnoremap <silent> <leader>/ :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR>
 "" substitude word with yanked"
-nmap <M-s> viw"0p
+nmap <C-s> viw"0p
 "" yank current word
-nmap <M-a> viwy
+nmap <C-a> viwy
 "" change current word
 nmap <M-c> viwc
 "" delete current word
 nmap <M-d> viwd
 "" $ to the EOL without newline_char
 vnoremap $ $h
-"" TODO разобраться зачем я это делал  Change tabs 
-map  <Leader>x :call GoToLastWindow()<CR>  
 "" Silversearcher 
 nnoremap <silent> <Leader>f :Ack<space>""<left>
 "" Window motions
@@ -163,9 +149,11 @@ nmap <C-k> <c-w>k
 nmap <C-l> <c-w>l
 "" Window resizing
 nnoremap <C-left>  5<C-w><
-nnoremap <C-right> 5<C-w><
+nnoremap <C-right> 5<C-w>>
 nnoremap <C-up>  5<C-w>+
 nnoremap <C-down> 5<C-w>-
+"" Open new tab
+nmap gt :tabe<CR>
 "" Tab motions
 nnoremap <Leader>h :tabprevious<CR>
 nnoremap <Leader>l :tabnext<CR>
@@ -181,11 +169,3 @@ vnoremap <Leader>x "_x
 nnoremap Q <nop>
 "" Delete trailing spaces
 :nnoremap <silent> <F5> :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl <Bar> :unlet _s <CR>
-
-"" Remove highliting after search
-
-"" Change active window to the lowest
-function! GoToLastWindow()
-  let lastWindow = winnr("$")
-  exe winnr('$') 'wincmd w'
-endfunction
