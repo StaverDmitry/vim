@@ -5,7 +5,7 @@ let $LANG = 'en_US'
 set regexpengine=1
 set noshowcmd
 set lazyredraw
-set synmaxcol=200
+set synmaxcol=1000
 set ttyfast
 
 set number
@@ -38,7 +38,6 @@ Plugin 'tpope/vim-surround'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'git://github.com/jiangmiao/auto-pairs.git'
 Plugin 'scrooloose/nerdtree'
-"Plugin 'git@github.com:szw/vim-tags.git'
 Plugin 'mileszs/ack.vim'
 Plugin 'mattn/webapi-vim'
 Plugin 'mattn/gist-vim'
@@ -48,6 +47,8 @@ Plugin 'danro/rename.vim'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'ervandew/supertab'
 Plugin 'lucapette/vim-ruby-doc'
+Plugin 'junegunn/vim-easy-align'
+"Plugin 'git@github.com:szw/vim-tags.git'
 call vundle#end()            " required
 
 "" 23 212 carvedwood
@@ -83,7 +84,9 @@ set smartcase                   " ... unless they contain at least one capital l
 "" Hide search highlighting on return
 nnoremap <silent><Cr> :noh <CR>
 
-" BEGIN  save on ctrl + s start   
+"" Easy align
+xmap ga <Plug>(EasyAlign)
+" BEGIN  save on gs start   
 command! -nargs=0 -bar GUpdate if &modified 
                            \|    if empty(bufname('%'))
                            \|        browse confirm write
@@ -91,8 +94,8 @@ command! -nargs=0 -bar GUpdate if &modified
                            \|        confirm write
                            \|    endif
                            \|endif
-nnoremap <silent> fs :<C-u>GUpdate<CR>
-" END SAVE ON CTRL + S  
+nnoremap <silent> gs :<C-u>GUpdate<CR>
+" END SAVE ON gs
 
 
 "" Open rails file in vertical split
@@ -106,6 +109,8 @@ nnoremap <SPACE> <Nop>
 map <C-b> :NERDTreeToggle .<CR> 
 "" CtrlP clear cache"
 nmap gp :ClearCtrlPCache<CR>
+"" CtrlP do not jump to opened window
+let g:ctrlp_switch_buffer = 0
 "" insert binding.pry in normal mode
 nnoremap <Leader>o obinding.pry<esc>k^
 nnoremap <Leader>O kobinding.pry<esc>j^
@@ -113,8 +118,8 @@ nnoremap <Leader>O kobinding.pry<esc>j^
 inoremap <C-p> binding.pry
 "" Find binding.pry in a project
 nnoremap gpry <C-w>s<C-w>J :Ack 'binding.pry'<CR>
-"" copy inside double quotes
-nmap Y vi"y
+"" copy to the end of the line
+nnoremap Y y$
 "" search for the current word
 nmap <M-/> viw"sy/<c-r>s<CR>
 "" paste in insert mode"
