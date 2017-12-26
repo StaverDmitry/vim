@@ -20,7 +20,7 @@ set guifont=Menlo\ Regular:h15
 set rtp+=~/.vim/bundle/Vundle.vim,$VIMRUNTIME
 call vundle#begin()
 Plugin 'pangloss/vim-javascript'
-Plugin 'mxw/vim-jsx'
+Plugin 'chemzqm/vim-jsx-improve'
 Plugin 'gmarik/Vundle.vim'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'danchoi/ri.vim'
@@ -84,8 +84,11 @@ set smartcase                   " ... unless they contain at least one capital l
 "" Hide search highlighting on return
 nnoremap <silent><Cr> :noh <CR>
 
-"" Easy align
+"" Easy align visual
 xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
 " BEGIN  save on gs start   
 command! -nargs=0 -bar GUpdate if &modified 
                            \|    if empty(bufname('%'))
@@ -111,6 +114,8 @@ map <C-b> :NERDTreeToggle .<CR>
 nmap gp :ClearCtrlPCache<CR>
 "" CtrlP do not jump to opened window
 let g:ctrlp_switch_buffer = 0
+"" CtrlP ignore
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 "" insert binding.pry in normal mode
 nnoremap <Leader>o obinding.pry<esc>k^
 nnoremap <Leader>O kobinding.pry<esc>j^
@@ -121,7 +126,7 @@ nnoremap gpry <C-w>s<C-w>J :Ack 'binding.pry'<CR>
 "" copy to the end of the line
 nnoremap Y y$
 "" search for the current word
-nmap <M-/> viw"sy/<c-r>s<CR>
+nmap <C-/> viw"sy/<c-r>s<CR>
 "" paste in insert mode"
 imap <C-V> <C-R>"
 "" newlines in insert mode TODO: ctrl
@@ -133,8 +138,9 @@ nnoremap N Nzz
 nnoremap * *<C-o>
 "" Go back to last edited line and center
 nnoremap g; g;zz
-"" Quick search window TODO why doesn't it work?
-nnoremap <silent> <leader>/ :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR>
+"" Quick search current word in current file
+nnoremap <Leader>/ :Ack "\b<C-R><C-W>\b" %<CR>
+nnoremap <Leader>? :Ack "\b<C-R><C-W>\b" <CR>
 "" substitude word with yanked"
 nmap <C-s> viw"0p
 "" yank current word
@@ -146,7 +152,7 @@ nmap <M-d> viwd
 "" $ to the EOL without newline_char
 vnoremap $ $h
 "" Silversearcher 
-nnoremap <silent> <Leader>f :Ack<space>""<left>
+nnoremap <silent> <Leader>f :Ack<space>"" -i <left><left><left><left><left>
 "" Window motions
 nmap <C-h> <C-w>h
 nmap <C-j> <c-w>j
